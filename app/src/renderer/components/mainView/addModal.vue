@@ -1,25 +1,25 @@
 <template>
     <div>
         <el-button type="primary" @click="dialogFormVisible = true">Добавить статью</el-button>
-        <el-dialog title="Shipping address" :visible.sync="dialogFormVisible">
+        <el-dialog title="Добавление статьи" :visible.sync="dialogFormVisible">
             <el-form :model="form">
-                <el-form-item label="Автор" :label-width="formLabelWidth">
+                <el-form-item label="Автор" label-width="100px">
                     <el-input v-model="form.author" auto-complete="off"></el-input>
                 </el-form-item>
-                <el-form-item label="Год" :label-width="formLabelWidth">
+                <el-form-item label="Год" label-width="100px">
                     <el-date-picker
                         v-model="form.year"
                         type="year"
                         placeholder="Гооод">
                     </el-date-picker>
                 </el-form-item>
-                <el-form-item label="Журнал" :label-width="formLabelWidth">
+                <el-form-item label="Журнал" label-width="100px">
                     <el-input v-model="form.journal" auto-complete="off"></el-input>
                 </el-form-item>
-                <el-form-item label="Абстракт" :label-width="formLabelWidth">
+                <el-form-item label="Абстракт" label-width="100px">
                     <el-input v-model="form.abstract" type="textarea" auto-complete="off"></el-input>
                 </el-form-item>
-                <el-form-item label="Теги" :label-width="formLabelWidth">
+                <el-form-item label="Теги" label-width="100px">
                     <el-select v-model="form.tags" multiple allow-create filterable placeholder="Select">
                         <el-option
                             v-for="item in options"
@@ -29,11 +29,12 @@
                         </el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="Ссылка на пдфку" :label-width="formLabelWidth">
+                <el-form-item label="Ссылка на пдфку" label-width="100px">
                     <el-upload
                         class="upload-demo"
                         action="false"
-                        :on-preview="handlePdf">
+                        :before-upload="handlePdf"
+                        :on-error="false">
                         <el-button size="small" type="primary">Click to upload</el-button>
                     </el-upload>
                 </el-form-item>
@@ -61,7 +62,7 @@
                 note: '',
                 href: ''
                 },
-            formLabelWidth: '240px'
+            formLabelWidth: '240px',
             }
         },
     computed: {
@@ -74,7 +75,7 @@
     },
     methods: {
         handlePdf(file) {
-            this.form.href = file
+            this.form.href = file.path
         },
         articleSave(){
             this.$store.dispatch('createArticle')
