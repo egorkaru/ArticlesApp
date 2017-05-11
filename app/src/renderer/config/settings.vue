@@ -15,15 +15,14 @@
         name: 'settings',
         data () {
             return {
-                db: Object.assign({}),
+                db: {},
             }
         },
         created(){
             if (userSettings.get('path') != ''){
                 this.db = parseDataFile(userSettings.get('path'))
-                for(let article of this.db.articles){
-                    this.$store.dispatch('createArticle')
-                    this.$store.dispatch('editArticle', article)
+                for(let article of this.db){
+                    this.$store.dispatch('newArticle', article)
                 }
                 this.$store.dispatch('updateTableView', this.$store.getters['articlesList'])
             }else{
@@ -38,6 +37,18 @@
                         userSettings.setPath(folderPaths[0]);
                     }
                 })
+            }
+            this.$store.subscribe((mutation, state) => {
+                //console.log(mutation, state)
+                if (mutation.type == "EDIT_ARTICLE") this.db = this.$store.getters['articlesList']
+            })
+        },
+        watch:{
+            db: {
+                handler: function (val, oldVal) { 
+                    saveDataFile(userSettings.get('path'), this.db)
+                    },
+                deep: true
             }
         },
         beforeDestroy(){

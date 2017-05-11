@@ -2,7 +2,7 @@
     <div>
         <el-button type="primary" @click="dialogFormVisible = true">Добавить статью</el-button>
         <el-dialog title="Добавление статьи" :visible.sync="dialogFormVisible">
-            <el-form :model="form">
+            <el-form :model="form" ref="newArticleDialog">
                 <el-form-item label="Автор" label-width="100px">
                     <el-input v-model="form.author" auto-complete="off"></el-input>
                 </el-form-item>
@@ -33,8 +33,7 @@
                     <el-upload
                         class="upload-demo"
                         action="false"
-                        :before-upload="handlePdf"
-                        :on-error="false">
+                        :before-upload="handlePdf">
                         <el-button size="small" type="primary">Click to upload</el-button>
                     </el-upload>
                 </el-form-item>
@@ -79,10 +78,17 @@
         },
         articleSave(){
             this.$store.dispatch('createArticle')
-            console.log(this.form)
-            this.$store.dispatch('editArticle', this.form)
-            this.dialogFormVisible = false
+            let newArticle = Object.assign({}, this.form, {id: this.$store.getters['articlesCount']})
+            this.$store.dispatch('editArticle', newArticle)
             this.$store.dispatch('updateTableView', this.$store.getters['articlesList'])
+            this.dialogFormVisible = false
+            this.$refs['newArticleDialog'].resetFields()
+        },
+    },
+    watch: {
+        form: {
+            handler: (val, oldVal) => { val.year = val.year.getFullYear() || val.year },
+            deep: true
         }
     }
   }

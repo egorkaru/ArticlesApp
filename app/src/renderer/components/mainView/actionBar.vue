@@ -20,11 +20,12 @@ import { mapGetters } from 'vuex'
     computed: {
         ...mapGetters({
             articles: 'articlesList',
+            blockUI: 'tableBlockUI'
             })
     },
     methods: {
         fuzzySearch(query){
-            if(!!query){
+            if(!!query && (this.blockUI < 0)){
                 let expr = RegExp(`.*${query}.*`);
                 this.results = this.articles.filter(
                     row => !! (row.abstract.match(expr))

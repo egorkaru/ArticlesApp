@@ -1,12 +1,14 @@
-const state = {
-    count: -1,
-    list: [],
-    currentId: 0,
+function jsonEqual(a,b) {
+    return JSON.stringify(a) === JSON.stringify(b);
 }
 
-const mutations = {
-    ['CREATE_ARTICLE'] (state) {
-        const newArticle = {
+const state = {
+    count: -1,
+    list: []
+}
+
+let articleTemplate = {
+            id: 0,
             author: '',
             year: '',
             journal: '',
@@ -15,17 +17,26 @@ const mutations = {
             note: '',
             href: ''
         }
-        state.count++
-        state.list.push(newArticle)
-        state.currentId = state.count
+
+
+const mutations = {
+    ['CREATE_ARTICLE'] () {
+        const _state = Object.assign({}, state)
+        _state.count += 1
+        let created = Object.assign({}, articleTemplate, {id: _state.count})
+        _state.list.push(created)
+        state.count = _state.count
+        state.list = [..._state.list]
         },
     ['EDIT_ARTICLE'] (state, article) {
-        state.list[state.currentId] = article
-    },
-    ['SET_ACTIVE_ARTICLE'] (state, id) {
-        state.currentId = id
+        const _state = Object.assign({}, state)
+        const edited = Object.assign({}, articleTemplate, article)
+        console.log('e',edited,'_',_state)
+        const targetA = _state.list.some(a => (a.id === article.id))
+        if (targetA) state.list = _state.list.map(a => (a.id === edited.id) ? edited : a)
     }
 }
+
 
 export default {
   state,

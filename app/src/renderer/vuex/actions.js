@@ -1,16 +1,20 @@
 export const createArticle = ({ commit }) => {
     commit('CREATE_ARTICLE')
-}
+    }
+
+export const newArticle = ({ commit }, article) => {
+    commit('CREATE_ARTICLE')
+    commit('EDIT_ARTICLE', article)
+    }
 
 export const editArticle = ({ commit }, article) => {
-    delete article.id
     commit('EDIT_ARTICLE', article)
-}
-
-export const setActiveArticle = ({ commit }, article) => {
-    commit('SET_ACTIVE_ARTICLE', article.id)
-}
+    }
 
 export const updateTableView = ({ commit }, articlesList) => {
     commit('UPDATE_VIEW', articlesList)
+    }
+
+export const editNote = ({ commit }, id) => {
+    commit('EDIT_ROW', id)
 }

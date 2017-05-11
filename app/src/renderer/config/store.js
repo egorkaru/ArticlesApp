@@ -20,8 +20,8 @@ class Store {
   
   setPath(val) {
     this.data['path'] = path.join(val, 'articles.json')
-    let firstRow = {
-      articles: [{
+    let firstRow = [{
+        id: 0,
         author: "Димка Пастер",
         year: "2016",
         journal: "ЗОЖ",
@@ -32,7 +32,7 @@ class Store {
         ],
         note: "что блять за хуйня",
         href: "/Users/egor/Documents/scienceJ/src/App.vue"
-    }]}
+    }]
     let articles = parseDataFile(this.data['path'], firstRow);
     fs.writeFileSync(this.data['path'], JSON.stringify(articles));
     fs.writeFileSync(this.path, JSON.stringify(this.data));
