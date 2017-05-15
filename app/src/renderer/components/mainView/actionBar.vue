@@ -28,29 +28,18 @@ import { mapGetters } from 'vuex'
             if(!!query && (this.blockUI < 0)){
                 let expr = RegExp(`.*${query}.*`);
                 this.results = this.articles.filter(
-                    row => !! (row.abstract.match(expr))
+                    row => !! (row.abstract.toLowerCase().match(expr))
                 )
-                /*this.results = this.articles.filter(
-                    row => {
-                        let lastFoundChar = 0
-                        for (let i of query) {
-                            let currentChar = query[lastFoundChar]
-                            if (currentChar == ' ') continue
-                            lastFoundChar = row.abstract.indexOf(currentChar, lastFoundChar) 
-                            if (lastFoundChar == -1) return false
-                            }
-                        return true
-                        })*/
-                this.$store.dispatch('updateTableView', this.results)
+                this.reloadTable(this.results)
                 } else {
-                this.reloadTable()
+                this.reloadTable(this.articles)
                 }
             },
         handleSearchClick() {
             this.fuzzySearch(searchQuery)
             },
-        reloadTable() {
-            this.$store.dispatch('updateTableView', this.articles)
+        reloadTable(newData) {
+            if (blockUI < 0 ) this.$store.dispatch('updateTableView', newData)
             }
         }
   }

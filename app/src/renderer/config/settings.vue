@@ -18,6 +18,14 @@
                 db: {},
             }
         },
+        watch:{
+            db: {
+                handler: function (val, oldVal) { 
+                    saveDataFile(userSettings.get('path'), this.db)
+                    },
+                deep: true
+            }
+        },
         created(){
             if (userSettings.get('path') != ''){
                 this.db = parseDataFile(userSettings.get('path'))
@@ -38,21 +46,7 @@
                     }
                 })
             }
-            this.$store.subscribe((mutation, state) => {
-                //console.log(mutation, state)
-                if (mutation.type == "EDIT_ARTICLE") this.db = this.$store.getters['articlesList']
-            })
-        },
-        watch:{
-            db: {
-                handler: function (val, oldVal) { 
-                    saveDataFile(userSettings.get('path'), this.db)
-                    },
-                deep: true
-            }
-        },
-        beforeDestroy(){
-            saveDataFile(userSettings.get('path'), this.db)
+            this.$store.subscribe((mutation, state) => (mutation.type == "EDIT_ARTICLE") ? this.db = this.$store.getters['articlesList'] : true)
         }
     }
 </script>

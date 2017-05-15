@@ -1,22 +1,18 @@
-function jsonEqual(a,b) {
-    return JSON.stringify(a) === JSON.stringify(b);
-}
-
 const state = {
     count: -1,
     list: []
 }
 
 let articleTemplate = {
-            id: 0,
-            author: '',
-            year: '',
-            journal: '',
-            abstract: '',
-            tags: [],
-            note: '',
-            href: ''
-        }
+    id: 0,
+    author: '',
+    year: '',
+    journal: '',
+    abstract: '',
+    tags: [],
+    note: '',
+    href: ''
+}
 
 
 const mutations = {
@@ -39,6 +35,6 @@ const mutations = {
 
 
 export default {
-  state,
-  mutations
+    state,
+    mutations
 }
