@@ -6,10 +6,15 @@
     style="width: 100%">
     <el-table-column type="expand">
       <template scope="props">
-        <p>Абстракт: {{ props.row.abstract }}</p>
-        <el-button type="text" icon="edit" size="small" @click="makeNote(props.$index, props.row)">Заметка</el-button>
-        <span v-show="props.$index != editableRow">{{ props.row.note }} <br><br></span>
-        <div class="articleNote" v-show="props.$index === editableRow">
+        <el-button type="text" icon="edit" size="small" @click="makeNote(props.$index, props.row, 'abstract')">Абстракт</el-button>
+        <span v-show="(props.$index != editableRow) || ((props.$index == editableRow) && (editableRowName != 'abstract'))">{{ props.row.abstract }} <br><br></span>
+        <div class="articleNote" v-show="(props.$index == editableRow) && (editableRowName === 'abstract')">
+            <el-input type="textarea" form autosize placeholder="Please input" v-model="props.row.abstract"></el-input>
+            <el-button type="success" style="float: right;" size="small" @click="saveNote(props.$index)">Сохранить</el-button>
+        </div>
+        <el-button type="text" icon="edit" size="small" @click="makeNote(props.$index, props.row, 'note')">Заметка</el-button>
+        <span v-show="(props.$index != editableRow) || ((props.$index == editableRow) && (editableRowName != 'note'))">{{ props.row.note }} <br><br></span>
+        <div class="articleNote" v-show="(props.$index == editableRow) && (editableRowName === 'note')">
             <el-input type="textarea" form autosize placeholder="Please input" v-model="props.row.note"></el-input>
             <el-button type="success" style="float: right;" size="small" @click="saveNote(props.$index)">Сохранить</el-button>
         </div>
@@ -66,6 +71,12 @@
   .el-textarea {
       margin-bottom: 10px;
   }
+  .abstract {
+      padding: 10px;
+      background-color: white;
+      border-radius: 2px;
+      border: 1px solid #D3DCE6;
+  }
 </style>
 
 <script>
@@ -74,21 +85,19 @@ import { mapGetters } from 'vuex'
 export default {
     data() {
         return {
+              editableRowName: '',
             }
         },
     computed: {
         ...mapGetters({
-            _tableData: 'tableViewRows',
+            tableData: 'tableViewRows',
             tagsList: 'tagsList',
             editableRow: 'tableBlockUI'
             }),
         filterTagsArray: function() {
             return this.tagsList.map(tag => ({text: tag, value: tag}))
-            },
-        tableData: function() {
-            return this._tableData
         }
-        },
+    },
     methods: {
       articleLink(path){
         this.$electron.shell.openItem(path)
@@ -96,22 +105,16 @@ export default {
       filterTag(value, row) {
         return row.tags.some(tag => tag == value)
       },
-      makeNote(index, row){
+      makeNote(index, row, name){
+        if (this.editableRow > -1) this.saveNote(this.editableRow)
         this.$store.dispatch('editNote', index)
-        //console.log(this.editableRow)
-        //console.log(this.tableData[index], row)
+        this.editableRowName = name
       },
       saveNote(index){
         this.$store.dispatch('editNote', -1)
         this.$store.dispatch('editArticle', this.tableData[index])
+        this.editableRowName = ''
       }
-    },
-    /*watch: {
-        tableData: () => {
-            return
-        }    
-    },*/
-    created() {
     }
   }
 </script>
