@@ -61,7 +61,7 @@
                 tags: [],
                 note: '',
                 file_name: '',
-                file_path: '',
+                file_path: ''
                 },
             formLabelWidth: '240px',
             }
