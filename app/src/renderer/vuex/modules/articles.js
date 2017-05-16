@@ -11,7 +11,8 @@ let articleTemplate = {
     abstract: '',
     tags: [],
     note: '',
-    href: ''
+	file_name: '',
+	file_path: ''
 }
 
 
