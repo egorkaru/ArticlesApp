@@ -18,7 +18,7 @@
             <el-input type="textarea" form autosize placeholder="Please input" v-model="props.row.note"></el-input>
             <el-button type="success" style="float: right;" size="small" @click="saveNote(props.$index)">Сохранить</el-button>
         </div>
-        <a @click="articleLink(props.row.href)">{{props.row.href}}</a>
+        <a @click="articleLink(props.row.file_path)">{{props.row.file_name}}</a>
       </template>
     </el-table-column>
     <el-table-column

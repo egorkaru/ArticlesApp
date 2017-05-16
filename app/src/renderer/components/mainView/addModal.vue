@@ -30,6 +30,7 @@
                     </el-select>
                 </el-form-item>
                 <el-form-item label="Ссылка на пдфку" label-width="100px">
+                    <a @click="articleLink(form.file_path)">{{form.file_name}}</a>
                     <el-upload
                         class="upload-demo"
                         action="false"
@@ -59,7 +60,8 @@
                 abstract: '',
                 tags: [],
                 note: '',
-                href: ''
+                file_name: '',
+                file_path: '',
                 },
             formLabelWidth: '240px',
             }
@@ -73,8 +75,12 @@
         }
     },
     methods: {
+        articleLink(path){
+            this.$electron.shell.openItem(path)
+        },
         handlePdf(file) {
-            this.form.href = file.path
+            this.form.file_name = file.name
+            this.form.file_path = file.path
         },
         articleSave(){
             this.$store.dispatch('createArticle')
