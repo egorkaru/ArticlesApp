@@ -11,8 +11,8 @@ let articleTemplate = {
     abstract: '',
     tags: [],
     note: '',
-	file_name: '',
-	file_path: ''
+    file_name: '',
+    file_path: ''
 }
 
 
@@ -24,16 +24,18 @@ const mutations = {
         _state.list.push(created)
         state.count = _state.count
         state.list = [..._state.list]
-        },
+    },
     ['EDIT_ARTICLE'] (state, article) {
         const _state = Object.assign({}, state)
         const edited = Object.assign({}, articleTemplate, article)
         console.log('e',edited,'_',_state)
         const targetA = _state.list.some(a => (a.id === article.id))
         if (targetA) state.list = _state.list.map(a => (a.id === edited.id) ? edited : a)
+    },
+    ['DELETE_ARTICLE'] (state, index) {
+	state.list.splice(index, index)
     }
 }
-
 
 export default {
     state,
