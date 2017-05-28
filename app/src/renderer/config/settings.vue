@@ -28,7 +28,7 @@
         },
         created(){
             if (userSettings.get('path') != ''){
-                this.db = parseDataFile(userSettings.get('path'))
+                this.db = parseDataFile(userSettings.get('path'), [])
                 for(let article of this.db){
                     this.$store.dispatch('newArticle', article)
                 }
