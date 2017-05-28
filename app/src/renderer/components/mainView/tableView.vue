@@ -19,6 +19,7 @@
             <el-button type="success" style="float: right;" size="small" @click="saveNote(props.$index)">Сохранить</el-button>
         </div>
         <a @click="articleLink(props.row.file_path)">{{props.row.file_name}}</a>
+	<el-button type="danger" icon="delete" size="small" @click="deleteArticle(props.$index)">Удалить</el-button>
       </template>
     </el-table-column>
     <el-table-column
@@ -114,6 +115,9 @@ export default {
         this.$store.dispatch('editNote', -1)
         this.$store.dispatch('editArticle', this.tableData[index])
         this.editableRowName = ''
+      },
+      deleteArticle(index){
+        this.$store.dispatch('deleteArticle', index)
       }
     }
   }

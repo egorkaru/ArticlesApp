@@ -46,7 +46,7 @@
                     }
                 })
             }
-            this.$store.subscribe((mutation, state) => (mutation.type == "EDIT_ARTICLE") ? this.db = this.$store.getters['articlesList'] : true)
+	    this.$store.subscribe((mutation, state) => ["EDIT", "DELETE"].map((k) => k + "_ARTICLE").indexOf(mutation.type) >= 0)
         }
     }
 </script>

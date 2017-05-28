@@ -18,3 +18,6 @@ export const updateTableView = ({ commit }, articlesList) => {
 export const editNote = ({ commit }, id) => {
     commit('EDIT_ROW', id)
 }
+export const deleteArticle = ({ commit }, id) => {
+    commit('DELETE_ARTICLE', id)
+}
