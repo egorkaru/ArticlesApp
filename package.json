@@ -10,6 +10,7 @@
     "build:mas": "cross-env PLATFORM_TARGET=mas node tasks/release.js",
     "build:win32": "cross-env PLATFORM_TARGET=win32 node tasks/release.js",
     "dev": "node tasks/runner.js",
+    "devt": "xargs tasks/runner.js -w | $(npm bin)/devtool tasks/runner.js -w",
     "pack": "npm run pack:main && npm run pack:renderer",
     "pack:main": "cross-env NODE_ENV=production webpack -p --progress --colors --config webpack.main.config.js",
     "pack:renderer": "cross-env NODE_ENV=production webpack -p --progress --colors --config webpack.renderer.config.js",
@@ -17,6 +18,9 @@
   },
   "author": "Greg Holguin <simulatedgreg@gmail.com>",
   "license": "MIT",
+  "optionalDependencies": {
+    "devtool": "*"
+  },
   "devDependencies": {
     "babel-core": "^6.8.0",
     "babel-loader": "^6.2.4",
