@@ -15,7 +15,7 @@
         name: 'settings',
         data () {
             return {
-                db: {},
+                db: [],
             }
         },
         watch:{
@@ -27,7 +27,7 @@
             }
         },
         created(){
-            if (userSettings.get('path') != ''){
+            if (!!userSettings.get('path')){
                 this.db = parseDataFile(userSettings.get('path'), [])
                 for(let article of this.db){
                     this.$store.dispatch('newArticle', article)
@@ -46,7 +46,10 @@
                     }
                 })
             }
-	    this.$store.subscribe((mutation, state) => ["EDIT", "DELETE"].map((k) => k + "_ARTICLE").indexOf(mutation.type) >= 0)
+	    this.$store.subscribe((mutation, state) => {
+            if (["EDIT", "DELETE"].map((k) => k + "_ARTICLE").includes(mutation.type))
+                this.db = this.$store.getters['articlesList']
+            })
         }
     }
 </script>
