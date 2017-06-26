@@ -48,7 +48,7 @@
             }
 	    this.$store.subscribe((mutation, state) => {
             if (["EDIT", "DELETE"].map((k) => k + "_ARTICLE").includes(mutation.type))
-                this.db = this.$store.getters['articlesList']
+                this.db = Object.assign([], this.$store.getters['articlesList'])
             })
         }
     }
